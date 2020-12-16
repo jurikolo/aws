@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create billing alarm and email / sms to recipients
+
+Parameters:
+  EMAIL:
+    Description: e-mail to send notifications to
+    Type: String
+  MSISDN:
+    Description: MSISDN to send notifications to
+    Type: String
+  ALARMTHRESHOLD:
+    Description: Amount of EUR to trigger alarm
+    Type: Number
+
+Resources:
+  BillingAlarmSnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Tags:
+        - Key: "Name"
+          Value: "billing-sns-topic"
+        - Key: "Service"
+          Value: "sns"
+      TopicName: BillingAlarmSnsTopic
+
+  BillingAlarmEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref EMAIL
+      Protocol: email
+      TopicArn: !Ref BillingAlarmSnsTopic
+    DependsOn: BillingAlarmSnsTopic
+
+  BillingAlarmSmsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref MSISDN
+      Protocol: sms
+      TopicArn: !Ref BillingAlarmSnsTopic
+    DependsOn: BillingAlarmSnsTopic
+
+  CloudWatchBillingAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: "BillingAlarm"
+      Namespace: AWS/Billing
+      MetricName: EstimatedCharges
+      Dimensions:
+        - Name: Currency
+          Value: EUR
+      Statistic: Maximum
+      Period: 21600
+      EvaluationPeriods: 1
+      Threshold: !Ref ALARMTHRESHOLD
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions:
+        - !Ref BillingAlarmSnsTopic
+    DependsOn: BillingAlarmSnsTopic
+
+Outputs:
+  BillingAlarmSnsTopicArn:
+    Value: !Ref BillingAlarmSnsTopic
+    Description: billing alarm SNS topic ARN
+    Export:
+      Name: billing-alarm-topic-arn

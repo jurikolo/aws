@@ -1,0 +1,12 @@
+[
+  {
+    "ParameterKey": "EMAIL",
+    "ParameterValue": "jurikolo@yandex.com"
+  }, {
+    "ParameterKey": "MSISDN",
+    "ParameterValue": "+37129373304"
+  }, {
+    "ParameterKey": "ALARMTHRESHOLD",
+    "ParameterValue": "10"
+  }
+]
