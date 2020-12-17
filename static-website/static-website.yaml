@@ -1,0 +1,87 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create S3 bucket for a website hosting
+
+Parameters:
+  BUCKETNAME:
+    Description: Name of a bucket to host a website
+    Type: String
+  DOMAIN:
+    Description: Domain name
+    Type: String
+    AllowedPattern: (?!-)[a-zA-Z0-9-.]{1,63}(?<!-)
+    ConstraintDescription: Must be a valid DNS zone name
+  CLOUDFRONT:
+    Description: Whether to create CloudFront distribution
+    Type: String
+    AllowedValues: [true, false]
+  CERTIFICATEARN:
+    Description: Certificate ARN. Copy value from us-east-1 region
+    Type: String
+    Default: "42"
+
+Conditions:
+  CLOUDFRONT: !Equals [!Ref CLOUDFRONT, true]
+
+Resources:
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BUCKETNAME
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: 404.html
+    DeletionPolicy: Retain
+
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref 'WebsiteBucket'
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: s3:GetObject
+            Resource: !Join [ '', [ 'arn:aws:s3:::', !Ref 'WebsiteBucket', /* ] ]
+
+  WebsiteCloudFront:
+    Type: AWS::CloudFront::Distribution
+    DependsOn:
+      - WebsiteBucket
+    Condition: CLOUDFRONT
+    Properties:
+      DistributionConfig:
+        Comment: Cloudfront Distribution pointing to S3 bucket
+        Origins:
+          - DomainName: !Select [ 2, !Split [ "/", !GetAtt WebsiteBucket.WebsiteURL ] ]
+            Id: S3Origin
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: http-only
+        Enabled: true
+        HttpVersion: 'http2'
+        DefaultRootObject: index.html
+        Aliases:
+          - !Ref DOMAIN
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+          Compress: true
+          TargetOriginId: S3Origin
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          AcmCertificateArn: !Ref CERTIFICATEARN
+          SslSupportMethod: sni-only
+      Tags:
+        - Key: "Name"
+          Value: "website-cloudfront-distribution"
+        - Key: "Service"
+          Value: "cloudfront"

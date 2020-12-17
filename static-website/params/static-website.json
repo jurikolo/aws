@@ -1,0 +1,15 @@
+[
+  {
+    "ParameterKey": "BUCKETNAME",
+    "ParameterValue": "jurikolo.name"
+  }, {
+    "ParameterKey": "DOMAIN",
+    "ParameterValue": "jurikolo.name"
+  }, {
+    "ParameterKey": "CLOUDFRONT",
+    "ParameterValue": "true"
+  }, {
+    "ParameterKey": "CERTIFICATEARN",
+    "ParameterValue": "arn:aws:acm:us-east-1:123456789012:certificate/7238daf1-18f7-4a05-ad64-a892cc24c552"
+  }
+]

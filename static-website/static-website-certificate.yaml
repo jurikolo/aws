@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create certificate for CloudFront distribution
+
+Parameters:
+  DOMAIN:
+    Description: Domain name
+    Type: String
+    AllowedPattern: (?!-)[a-zA-Z0-9-.]{1,63}(?<!-)
+    ConstraintDescription: Must be a valid DNS zone name
+
+Resources:
+  WebsiteCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DOMAIN
+      Tags:
+        - Key: "Name"
+          Value: "website-certificate"
+        - Key: "Service"
+          Value: "acm"
+      ValidationMethod: DNS
+
+Outputs:
+  WebsiteCertificateArn:
+    Value: !Ref WebsiteCertificate
+    Description: Website certificate ARN
+    Export:
+      Name: website-certificate-arn
