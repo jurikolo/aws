@@ -15,3 +15,6 @@ To create CFN stack, execute following:
 ```bash
 aws --profile $PROFILE cloudformation create-stack --stack-name static-website --template-body file://static-website/static-website.yaml --parameters file://static-website/params/static-website.json
 ```
+
+## Other
+* HostedZoneId is hardcoded for CloudFront to value `Z2FDTNDATAQYW2` as described [in Route53 documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html)
