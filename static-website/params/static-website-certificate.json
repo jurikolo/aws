@@ -1,6 +1,6 @@
 [
   {
-    "ParameterKey": "BUCKETNAME",
+    "ParameterKey": "DOMAIN",
     "ParameterValue": "jurikolo.name"
   }
 ]
