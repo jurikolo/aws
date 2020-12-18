@@ -85,3 +85,20 @@ Resources:
           Value: "website-cloudfront-distribution"
         - Key: "Service"
           Value: "cloudfront"
+
+  WebsiteDNSName:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Join [ '', [ !Ref 'DOMAIN', . ] ]
+      RecordSets:
+        - Name: !Ref 'DOMAIN'
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt [ WebsiteCloudFront, DomainName ]
+
+Outputs:
+  BucketName:
+    Value: !Ref WebsiteBucket
+    Export:
+      Name: website-s3-bucket-name
