@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to prepare AWS environment for lambdas
+
+Parameters:
+  BUCKETNAME:
+    Description: Name of a bucket to host lambdas
+    Type: String
+  APIGATEWAYNAME:
+    Description: API Gateway name
+    Type: String
+
+Resources:
+  LambdaBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BUCKETNAME
+      AccessControl: PublicRead
+
+  ApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Description: Proxy API Gateway for Lambdas
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      Parameters:
+        endpointConfigurationTypes: REGIONAL
+      Name: !Ref APIGATEWAYNAME
+
+Outputs:
+  BucketName:
+    Value: !Ref LambdaBucket
+    Export:
+      Name: lambda-s3-bucket-name
+
+  RestApiGatewayId:
+    Value: !Ref ApiGateway
+    Export:
+      Name: lambda-rest-api-gateway-id
+
+  RestApiGatewayRootResourceId:
+    Value:
+      'Fn::GetAtt':
+        - ApiGateway
+        - RootResourceId
+    Export:
+      Name: lambda-rest-api-gateway-root-resource-id
