@@ -11,12 +11,14 @@ This lambda allows returns requester source IP address by executing POST request
 http POST https://url
 ```
 
+where url is `DOMAIN` from parameters.
+
 To provision lambda, execute following:
 * Create a certificate for custom domain name:
     ```bash
     aws --profile $PROFILE cloudformation create-stack --stack-name source-ip-certificate --template-body file://lambda/source-ip-certificate.yaml --parameters file://lambda/params/source-ip-certificate.json --tags Key=service,Value=acm
     ```
-* Create lambda and link it with API Gateway
+* Create a lambda and link with API Gateway
     ```bash
     aws --profile $PROFILE cloudformation create-stack --stack-name lambda-source-ip --template-body file://lambda/source-ip.yaml --parameters file://lambda/params/source-ip.json --tags Key=service,Value=lambda --capabilities CAPABILITY_IAM
     ```
