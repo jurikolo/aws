@@ -72,7 +72,7 @@ Resources:
               },
               'statusCode': 200
             }
-      Description: Example Lambda function
+      Description: Return requester source IP address
       FunctionName: !Ref LAMBDAFUNCTIONNAME
       Handler: index.handler
       MemorySize: 128
@@ -122,6 +122,12 @@ Resources:
       RestApiId:
         Fn::ImportValue: lambda-rest-api-gateway-id
       StageName: !Ref APIGATEWAYSTAGENAME
+      StageDescription:
+        CachingEnabled: false
+        DataTraceEnabled: false
+        Description: Default stage
+        ThrottlingBurstLimit: 5
+        ThrottlingRateLimit: 5
 
   ApiGatewayCustomDomain:
     Type: AWS::ApiGateway::DomainName
@@ -131,6 +137,14 @@ Resources:
       EndpointConfiguration:
         Types:
           - REGIONAL
+
+  ApiGatewayMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      DomainName: !Ref DOMAIN
+      RestApiId:
+        Fn::ImportValue: lambda-rest-api-gateway-id
+      Stage: !Ref APIGATEWAYSTAGENAME
 
   LambdaDNSName:
     Type: AWS::Route53::RecordSetGroup
