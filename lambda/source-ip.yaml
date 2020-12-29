@@ -146,6 +146,22 @@ Resources:
         Fn::ImportValue: lambda-rest-api-gateway-id
       Stage: !Ref APIGATEWAYSTAGENAME
 
+  ApiGatewayUsagePlan:
+    Type: 'AWS::ApiGateway::UsagePlan'
+    Properties:
+      ApiStages:
+        - ApiId:
+            Fn::ImportValue: lambda-rest-api-gateway-id
+          Stage: !Ref APIGATEWAYSTAGENAME
+      Description: source-ip API usage plan
+      Quota:
+        Limit: 1000
+        Period: MONTH
+      Throttle:
+        BurstLimit: 5
+        RateLimit: 5
+      UsagePlanName: SourceIpUsagePlan
+
   LambdaDNSName:
     Type: AWS::Route53::RecordSetGroup
     DependsOn: ApiGatewayCustomDomain
