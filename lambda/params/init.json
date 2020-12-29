@@ -1,0 +1,9 @@
+[
+  {
+    "ParameterKey": "BUCKETNAME",
+    "ParameterValue": "jurikolo-lambda"
+  }, {
+    "ParameterKey": "APIGATEWAYNAME",
+    "ParameterValue": "lambda-api"
+  }
+]

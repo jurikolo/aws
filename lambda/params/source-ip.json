@@ -1,0 +1,21 @@
+[
+  {
+    "ParameterKey": "APIGATEWAYSTAGENAME",
+    "ParameterValue": "v1"
+  }, {
+    "ParameterKey": "APIGATEWAYHTTPMETHOD",
+    "ParameterValue": "POST"
+  }, {
+    "ParameterKey": "LAMBDAFUNCTIONNAME",
+    "ParameterValue": "source-ip"
+  }, {
+    "ParameterKey": "DOMAIN",
+    "ParameterValue": "source-ip.jurikolo.name"
+  }, {
+    "ParameterKey": "HOSTEDZONE",
+    "ParameterValue": "jurikolo.name"
+  }, {
+    "ParameterKey": "CERTIFICATEARN",
+    "ParameterValue": ""
+  }
+]

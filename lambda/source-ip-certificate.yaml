@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create certificate for API gateway
+
+Parameters:
+  DOMAIN:
+    Description: Domain name
+    Type: String
+    AllowedPattern: (?!-)[a-zA-Z0-9-.]{1,63}(?<!-)
+    ConstraintDescription: Must be a valid DNS zone name
+
+Resources:
+  SourceIpLambdaCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DOMAIN
+      Tags:
+        - Key: "Name"
+          Value: "website-certificate"
+        - Key: "Service"
+          Value: "acm"
+      ValidationMethod: DNS
+
+Outputs:
+  WebsiteCertificateArn:
+    Value: !Ref SourceIpLambdaCertificate
+    Description: Source IP Lambda certificate ARN
+    Export:
+      Name: source-ip-lambda-certificate-arn
