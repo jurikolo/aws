@@ -15,7 +15,7 @@ Resources:
       DomainName: !Ref DOMAIN
       Tags:
         - Key: "Name"
-          Value: "website-certificate"
+          Value: "lambda-source-ip-certificate"
         - Key: "Service"
           Value: "acm"
       ValidationMethod: DNS

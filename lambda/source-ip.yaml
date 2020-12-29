@@ -127,7 +127,10 @@ Resources:
     Type: AWS::ApiGateway::DomainName
     Properties:
       DomainName: !Ref DOMAIN
-      CertificateArn: !Ref CERTIFICATEARN
+      RegionalCertificateArn: !Ref CERTIFICATEARN
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
 
   LambdaDNSName:
     Type: AWS::Route53::RecordSetGroup
@@ -138,11 +141,14 @@ Resources:
         - Name: !Ref 'DOMAIN'
           Type: A
           AliasTarget:
-            HostedZoneId: Z2FDTNDATAQYW2
+            HostedZoneId:
+              Fn::GetAtt:
+                - ApiGatewayCustomDomain
+                - RegionalHostedZoneId
             DNSName:
               Fn::GetAtt:
                 - ApiGatewayCustomDomain
-                - DistributionDomainName
+                - RegionalDomainName
 
 Outputs:
   LambdaArn:
@@ -150,10 +156,10 @@ Outputs:
     Export:
       Name: lambda-source-ip-arn
 
-  DistributionDomainName:
+  RegionalDomainName:
     Value:
       Fn::GetAtt:
         - ApiGatewayCustomDomain
-        - DistributionDomainName
+        - RegionalDomainName
     Export:
-      Name: lambda-source-ip-distribution-domain-name
+      Name: lambda-source-ip-regional-domain-name

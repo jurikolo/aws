@@ -23,6 +23,8 @@ Resources:
       EndpointConfiguration:
         Types:
           - REGIONAL
+      Parameters:
+        endpointConfigurationTypes: REGIONAL
       Name: !Ref APIGATEWAYNAME
 
 Outputs:

@@ -16,6 +16,6 @@
     "ParameterValue": "jurikolo.name"
   }, {
     "ParameterKey": "CERTIFICATEARN",
-    "ParameterValue": ""
+    "ParameterValue": "arn:aws:acm:eu-central-1:514474184246:certificate/c7c8f62e-bc38-47b1-a974-8096ef36e8c2"
   }
 ]

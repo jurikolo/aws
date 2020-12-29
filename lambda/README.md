@@ -14,9 +14,9 @@ http POST https://url
 To provision lambda, execute following:
 * Create a certificate for custom domain name:
     ```bash
-    aws --profile $PROFILE --region us-east-1 cloudformation create-stack --stack-name source-ip-certificate --template-body file://lambda/source-ip-certificate.yaml --parameters file://lambda/params/source-ip-certificate.json --tags Key=service,Value=acm
+    aws --profile $PROFILE cloudformation create-stack --stack-name source-ip-certificate --template-body file://lambda/source-ip-certificate.yaml --parameters file://lambda/params/source-ip-certificate.json --tags Key=service,Value=acm
     ```
 * Create lambda and link it with API Gateway
-```bash
-aws --profile $PROFILE cloudformation create-stack --stack-name lambda-source-ip --template-body file://lambda/source-ip.yaml --parameters file://lambda/params/source-ip.json --tags Key=service,Value=lambda --capabilities CAPABILITY_IAM
-```
+    ```bash
+    aws --profile $PROFILE cloudformation create-stack --stack-name lambda-source-ip --template-body file://lambda/source-ip.yaml --parameters file://lambda/params/source-ip.json --tags Key=service,Value=lambda --capabilities CAPABILITY_IAM
+    ```
