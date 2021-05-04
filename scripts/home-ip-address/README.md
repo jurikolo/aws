@@ -34,7 +34,7 @@ This script uses following applications:
 #### Checkout repository
 Download repository and navigate to script directory:
 ```bash
-git clone git@github.com:jurikolo/aws.git
+git clone https://github.com/jurikolo/aws
 cd aws/scripts/home-ip-address
 ```
 
@@ -64,3 +64,10 @@ To configure script to execute periodically, use `crontab` and configure it like
 ? * * * * /bin/bash /home/jurikolo/git/aws/scripts/home-ip-address/dns.sh
 ```
 Record above will trigger script once in an hour at random minute.
+
+# Notes
+## Error handling
+The script might fail due to missing execution privileges. To add, do:
+```bash
+chmod +x dns.sh
+```
