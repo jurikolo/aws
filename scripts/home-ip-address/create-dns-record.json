@@ -1,0 +1,17 @@
+{
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "DNS_DOMAIN_NAME_TO_REPLACE",
+        "Type": "A",
+        "TTL": 120,
+        "ResourceRecords": [
+          {
+            "Value": "IP_TO_REPLACE"
+          }
+        ]
+      }
+    }
+  ]
+}
