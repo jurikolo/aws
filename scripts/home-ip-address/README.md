@@ -58,10 +58,18 @@ Create new DNS domain name and point to current IP address:
 aws --profile route53 route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch file:///home/jurikolo/tmp/home-jurikolo-name-create-route53.json
 ```
 
+## Input parameters
+
+| Name    | Description | Required | Default value |
+|---------|-------------|----------|---------------|
+| domain  | Domain to be updated with current IP address | yes | N/A | 
+| zone    | Hosted zone name | yes | N/A
+| profile | AWS profile configured for aws-cli | no | `default` | 
+
 ## Script configuration
 To configure script to execute periodically, use `crontab` and configure it like this:
 ```bash
-0 * * * * /bin/bash /home/jurikolo/git/aws/scripts/home-ip-address/dns.sh
+0 * * * * /bin/bash /home/jurikolo/git/aws/scripts/home-ip-address/dns.sh --domain home.jurikolo.name --zone jurikolo.name --profile route53
 ```
 Record above will trigger script once in an hour at first minute.
 
