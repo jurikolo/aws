@@ -61,9 +61,9 @@ aws --profile route53 route53 change-resource-record-sets --hosted-zone-id $HOST
 ## Script configuration
 To configure script to execute periodically, use `crontab` and configure it like this:
 ```bash
-? * * * * /bin/bash /home/jurikolo/git/aws/scripts/home-ip-address/dns.sh
+0 * * * * /bin/bash /home/jurikolo/git/aws/scripts/home-ip-address/dns.sh
 ```
-Record above will trigger script once in an hour at random minute.
+Record above will trigger script once in an hour at first minute.
 
 # Notes
 ## Error handling
